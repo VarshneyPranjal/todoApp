@@ -18,6 +18,16 @@
             >
             <button type="submit">Add Task</button>
         </form>
+        
+        <!-- Task List -->
+        <ul>
+        {{ range . }}
+            <li>{{ .Title }}</li>
+        {{ else }}
+            <li>No tasks yet</li>
+        {{ end }}
+        </ul>
+        
         <div class="cards">
             <div class="card">
                 <span>Language</span>
