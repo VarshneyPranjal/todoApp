@@ -1,5 +1,5 @@
 # Base image (OS)
-FROM golang:1.24
+FROM golang:1.26
 
 # Working directory
 WORKDIR /app
