@@ -22,7 +22,7 @@
         <!-- Task List -->
         <ul>
         {{ range . }}
-            <li>{{ .Title }}</li>
+            <li>{{ .ID }} - {{ .Title }}</li>
         {{ else }}
             <li>No tasks yet</li>
         {{ end }}
