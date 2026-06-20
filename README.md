@@ -1,8 +1,6 @@
-# Flask App — AWS ECS Deployment
+# todo App — AWS ECS Deployment
 
 A minimal Flask web application built for learning containerization and deployment to **AWS ECS (Elastic Container Service)**.
-
-Part of the [TrainWithShubham](https://github.com/TrainWithShubham) — DevOps Zero To Hero course.
 
 ![Python](https://img.shields.io/badge/Python-3.14-blue)
 ![Flask](https://img.shields.io/badge/Flask-3.1.1-green)
@@ -27,7 +25,7 @@ Part of the [TrainWithShubham](https://github.com/TrainWithShubham) — DevOps Z
 ## Project Structure
 
 ```
-flask-app-ecs/
+todoApp/
 ├── app.py                 # Flask app with routes
 ├── run.py                 # Entry point (host 0.0.0.0, port 80)
 ├── requirements.txt       # Python dependencies
@@ -53,15 +51,15 @@ App runs at **http://localhost:80**.
 **Simple build:**
 
 ```bash
-docker build -t flask-app .
-docker run -p 80:80 flask-app
+docker build -t todoapp .
+docker run -p 80:80 todoapp
 ```
 
 **Multistage build (smaller, production-grade):**
 
 ```bash
-docker build -f Dockerfile-multi -t flask-app .
-docker run -p 80:80 flask-app
+docker build -f Dockerfile-multi -t todoapp .
+docker run -p 80:80 todoapp
 ```
 
 ## Dockerfiles Explained
