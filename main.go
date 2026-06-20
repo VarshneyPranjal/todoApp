@@ -19,9 +19,8 @@ func main() {
 	http.Handle("/static/",
 		http.StripPrefix("/static/",
 			http.FileServer(http.Dir("static"))))
-
+	
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		tmpl.Execute(w, tasks)
 		if err := tmpl.Execute(w, tasks); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
