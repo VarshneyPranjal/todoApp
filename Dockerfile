@@ -1,5 +1,5 @@
 # Base image (OS)
-FROM python:3.14-slim
+FROM golang:1.24
 
 # Working directory
 WORKDIR /app
@@ -8,10 +8,11 @@ WORKDIR /app
 COPY . . 
 
 # Run the build commands
-RUN pip install -r requirements.txt
+RUN go mod download
+RUN go build -o todoapp .
 
 # expose port 80
 EXPOSE 8080
 
 # serve the app / run the app (keep it running)
-CMD ["python","run.py"]
+CMD ["./todoapp"]
