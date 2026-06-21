@@ -117,3 +117,14 @@
     opacity: 0.9;
 }
 
+.complete-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.completed {
+    text-decoration: line-through;
+    opacity: 0.6;
+}

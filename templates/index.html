@@ -1,45 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TODO App</title>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
+
 <body>
     <div class="container">
         <h1>TODO App</h1>
         <form action="/add" method="POST">
-            <input
-                type="text"
-                name="task"
-                placeholder="Enter a task..."
-                required
-            >
+            <input type="text" name="task" placeholder="Enter a task..." required>
             <button type="submit">Add Task</button>
         </form>
-        
+
         <!-- Task List -->
         <div class="task-list">
-        {{ range . }}
-           <div class="task-card">
-            <div>
-                <span class="task-title">{{ .Title }}</span>
+            {{ range . }}
+            <div class="task-card">
+                <form action="/complete" method="POST">
+                    <input type="hidden" name="id" value="{{ .ID }}">
+                    <button class="complete-btn" type="submit">
+                        {{ if .Completed }}
+                        ✅
+                        {{ else }}
+                        ⬜
+                        {{ end }}
+                    </button>
+                </form>
+                <span class="task-title
+            {{ if .Completed }}
+            completed
+            {{ end }}">
+                    {{ .Title }}
+                </span>
+
+                <form action="/delete" method="POST">
+                    <input type="hidden" name="id" value="{{ .ID }}">
+                    <button class="delete-btn" type="submit">🗑️</button>
+                </form>
             </div>
-            <form action="/delete" method="POST">
-                <input type="hidden" name="id" value="{{ .ID }}">
-                <button class="delete-btn" type="submit">
-                    🗑️
-                </button>
-            </form>
-            </div>
-        {{ else }}
+            {{ else }}
             <div class="empty-task">
                 No tasks yet 🚀
             </div>
-        {{ end }}
+            {{ end }}
         </div>
-        
         <div class="cards">
             <div class="card">
                 <span>Language</span>
@@ -56,4 +64,5 @@
         </div>
     </div>
 </body>
+
 </html>

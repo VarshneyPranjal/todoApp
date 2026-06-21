@@ -8,8 +8,9 @@ import (
 )
 
 type Task struct {
-	ID    int
-	Title string
+	ID        int
+	Title     string
+	Completed bool
 }
 
 var tasks []Task
@@ -30,6 +31,7 @@ func main() {
 
 	http.HandleFunc("/add", addTaskHandler)
 	http.HandleFunc("/delete", deleteTaskHandler)
+	http.HandleFunc("/complete", completeTaskHandler)
 
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Server is up and running"))
@@ -74,6 +76,30 @@ func deleteTaskHandler(w http.ResponseWriter, r *http.Request) {
 	for i, task := range tasks {
 		if task.ID == id {
 			tasks = append(tasks[:i], tasks[i+1:]...)
+			break
+		}
+	}
+
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
+func completeTaskHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	idStr := r.FormValue("id")
+
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "Invalid task id", http.StatusBadRequest)
+		return
+	}
+
+	for i := range tasks {
+		if tasks[i].ID == id {
+			tasks[i].Completed = !tasks[i].Completed
 			break
 		}
 	}
