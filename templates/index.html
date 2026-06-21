@@ -24,7 +24,6 @@
         {{ range . }}
            <div class="task-card">
             <div>
-                <span class="task-id">#{{ .ID }}</span>
                 <span class="task-title">{{ .Title }}</span>
             </div>
             <form action="/delete" method="POST">
