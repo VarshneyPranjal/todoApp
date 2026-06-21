@@ -20,13 +20,18 @@
         </form>
         
         <!-- Task List -->
-        <ul>
+        <div class="task-list">
         {{ range . }}
-            <li>{{ .ID }} - {{ .Title }}</li>
+           <div class="task-card">
+            <span class="task-id">#{{ .ID }}</span>
+            <span class="task-title">{{ .Title }}</span>
+           </div>
         {{ else }}
-            <li>No tasks yet</li>
+            <div class="empty-task">
+                No tasks yet 🚀
+            </div>
         {{ end }}
-        </ul>
+        </div>
         
         <div class="cards">
             <div class="card">
