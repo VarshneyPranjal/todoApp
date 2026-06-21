@@ -1,18 +1,27 @@
-# Base image (OS)
-FROM golang:1.26
+# ==========================
+# Stage 1 - Build
+# ==========================
+FROM golang:1.26 AS builder
 
-# Working directory
 WORKDIR /app
 
-# Copy src code to container
-COPY . . 
+COPY . .
 
-# Run the build commands
 RUN go mod download
-RUN go build -o todoapp .
 
-# expose port 80
+RUN CGO_ENABLED=0 GOOS=linux go build -o todoapp .
+
+# ==========================
+# Stage 2 - Runtime
+# ==========================
+FROM alpine:latest
+
+WORKDIR /app
+
+COPY --from=builder /app/todoapp .
+COPY --from=builder /app/templates ./templates
+COPY --from=builder /app/static ./static
+
 EXPOSE 8080
 
-# serve the app / run the app (keep it running)
 CMD ["./todoapp"]
