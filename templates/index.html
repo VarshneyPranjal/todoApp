@@ -23,9 +23,17 @@
         <div class="task-list">
         {{ range . }}
            <div class="task-card">
-            <span class="task-id">#{{ .ID }}</span>
-            <span class="task-title">{{ .Title }}</span>
-           </div>
+            <div>
+                <span class="task-id">#{{ .ID }}</span>
+                <span class="task-title">{{ .Title }}</span>
+            </div>
+            <form action="/delete" method="POST">
+                <input type="hidden" name="id" value="{{ .ID }}">
+                <button class="delete-btn" type="submit">
+                    🗑️
+                </button>
+            </form>
+            </div>
         {{ else }}
             <div class="empty-task">
                 No tasks yet 🚀

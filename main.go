@@ -4,7 +4,9 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strconv"
 )
+
 type Task struct {
 	ID    int
 	Title string
@@ -19,7 +21,7 @@ func main() {
 	http.Handle("/static/",
 		http.StripPrefix("/static/",
 			http.FileServer(http.Dir("static"))))
-	
+
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if err := tmpl.Execute(w, tasks); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -27,6 +29,7 @@ func main() {
 	})
 
 	http.HandleFunc("/add", addTaskHandler)
+	http.HandleFunc("/delete", deleteTaskHandler)
 
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Server is up and running"))
@@ -44,12 +47,36 @@ func addTaskHandler(w http.ResponseWriter, r *http.Request) {
 
 	task := r.FormValue("task")
 	log.Println("New Task:", task)
-	
+
 	tasks = append(tasks, Task{
 		ID:    nextID,
 		Title: task,
 	})
 	nextID++
+
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
+func deleteTaskHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	idStr := r.FormValue("id")
+
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "Invalid task id", http.StatusBadRequest)
+		return
+	}
+
+	for i, task := range tasks {
+		if task.ID == id {
+			tasks = append(tasks[:i], tasks[i+1:]...)
+			break
+		}
+	}
 
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
