@@ -17,7 +17,7 @@ A modern ToDo web application built using Go's standard library (`net/http`) and
 - Health check endpoint
 - Dockerized application
 - Multi-stage Docker build using Alpine Linux
-- GitHub Actions CI pipeline
+- GitHub Actions CI/CD pipeline
 - Automated deployment pipeline to AWS EC2
 
 > **Note:** Tasks are currently stored in memory and will be reset whenever the application restarts.
@@ -41,8 +41,7 @@ A modern ToDo web application built using Go's standard library (`net/http`) and
 todoApp/
 ├── .github/
 │   └── workflows/
-│       ├── ci.yml
-│       └── deploy.yml
+│       ├── ci-cd.yml
 ├── static/
 │   └── css/
 │       └── style.css
